@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Vue.js App</title>
     <link href="main.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@12.1.5"></script>
 </head>
 <body>
 <div id="app">
@@ -19,7 +20,7 @@
     <button v-on:click="increment">カウントを増やす</button>
     <p :class="{child: isChild, 'is-active':isActive}">test</p>
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-        <circle cx="100" cy="75" v-bind:r="radius" fill="lightpink" />
+        <circle cx="100" cy="75" v-bind:r="radius" fill="lightpink"/>
     </svg>
     <input type="range" min="0" max="100" v-model="radius">
     <input v-model="name">
@@ -32,6 +33,27 @@
             <button v-on:click="doAttack(index)">攻撃する</button>
         </li>
     </ul>
+    <button v-on:click="handleClick">クリック</button>
+    <input v-bind:value="message" v-on:change="handleInput">
+    <p>
+        <textarea v-model="message"></textarea>
+        <pre>{{ message }}</pre>
+    </p>
+    <p>
+        <label>
+            <input type="checkbox" v-model="val"> {{ val }}
+        </label>
+    </p>
+    <p>
+        <label><input type="checkbox" v-model="val" value="A"> A</label>
+        <label><input type="checkbox" v-model="val" value="B"> B</label>
+        <label><input type="checkbox" v-model="val" value="C"> C</label>
+        {{ val }}
+    </p>
+    <div class="content">...</div>
+    <button v-on:click="scrollTop">
+        ページ上部へ移動
+    </button>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 <script src="main.js"></script>

@@ -1,4 +1,7 @@
-var app = new Vue({
+var scroll = new SmoothScroll()
+
+
+app = new Vue({
     el: '#app',
     data: {
         show: true,
@@ -11,7 +14,16 @@ var app = new Vue({
             {id: 1, name: 'スライム', hp: 100},
             {id: 2, name: 'ゴブリン', hp: 200},
             {id: 3, name: 'ドラゴン', hp: 500}
-        ]
+        ],
+        val:true
+    },
+    created: function () {
+        // ハンドラを登録
+        window.addEventListener('scroll', this.handleScroll)
+    },
+    beforeDestroy: function () {
+        // ハンドラを解除（コンポーネントやSPAの場合忘れずに！）
+        window.removeEventListener('scroll', this.handleScroll)
     },
     methods: {
         // ボタンをクリックしたときのハンドラ
@@ -32,8 +44,28 @@ var app = new Vue({
             this.name = null;
         },
         doAttack: function (index) {
-                this.list[index].hp -= 10 // HPを減らす
+            this.list[index].hp -= 10 // HPを減らす
 
+        },
+        handleClick: function () {
+            alert('クリックしたよ')
+        },
+        handleInput: function (event) {
+            // 代入前に何か処理を行う…
+            this.message = event.target.value
+        },
+        // 違和感のない程度に200ms間隔でscrollデータを更新する例
+        handleScroll: function () {
+            if (this.timer === null) {
+                this.timer = setTimeout(function () {
+                    this.scrollY = window.scrollY
+                    clearTimeout(this.timer)
+                    this.timer = null
+                }.bind(this), 200)
+            }
+        },
+        scrollTop: function () {
+            scroll.animateScroll(0)
         }
     }
 })
