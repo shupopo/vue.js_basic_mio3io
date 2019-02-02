@@ -15,7 +15,26 @@ app = new Vue({
             {id: 2, name: 'ゴブリン', hp: 200},
             {id: 3, name: 'ドラゴン', hp: 500}
         ],
-        val:true
+        val: true,
+        width: 900,
+        budget: 300,
+        // 表示件数
+        limit: 2,
+        // もとになるリスト
+        list2: [
+            {id: 1, name: 'りんご', price: 100},
+            {id: 2, name: 'ばなな', price: 200},
+            {id: 3, name: 'いちご', price: 400},
+            {id: 4, name: 'おれんじ', price: 300},
+            {id: 5, name: 'めろん', price: 500}
+        ],
+        list3: [],
+        current: '',
+        topics: [
+            {value: 'vue', name: 'Vue.js'},
+            {value: 'jQuery', name: 'jQuery'}
+        ]
+
     },
     created: function () {
         // ハンドラを登録
@@ -67,5 +86,31 @@ app = new Vue({
         scrollTop: function () {
             scroll.animateScroll(0)
         }
-    }
+    },
+    computed: {
+        // 算出プロパティhalfWidthを定義
+        halfWidth: function () {
+            return this.width / 2
+        },
+        matched: function () {
+            return this.list2.filter(function (el) {
+                return el.price <= this.budget
+            }, this)
+        },
+        limited: function () {
+            return this.matched.slice(0, this.limit)
+        }
+    },
+    watch: {
+        current: function (val) {
+            // GitHubのAPIからトピックのリポジトリを検索
+            axios.get('https://api.github.com/search/repositories', {
+                params: {
+                    q: 'topic:' + val
+                }
+            }).then(function (response) {
+                this.list3 = response.data.items
+            }.bind(this))
+        }
+    },
 })
