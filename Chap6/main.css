@@ -1,0 +1,16 @@
+/* 1秒かけて透明度を遷移 */
+.v-enter-active, .v-leave-active {
+    transition: opacity 1s;
+}
+/* 見えなくなるときの透明度 */
+.v-enter, .v-leave-to {
+    opacity: 0;
+}
+
+.v-leave-active {
+    position: absolute;
+}
+
+.v-move {
+    transition: transform 1s;
+}
